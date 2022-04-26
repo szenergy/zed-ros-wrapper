@@ -12,6 +12,26 @@ This package lets you use the ZED stereo camera with ROS. It outputs the camera 
 - [Install](#build-the-program) the ZED ROS wrapper
 - For more information, check out our [ROS documentation](https://www.stereolabs.com/documentation/guides/using-zed-with-ros/introduction.html). If you want to customize the wrapper, check the [ZED API documentation](https://www.stereolabs.com/developers/documentation/API/)
 
+``` r
+$ v4l2-ctl --list-devices
+
+ZED 2 (usb-3610000.xhci-4.1.1.1):
+        /dev/video1
+
+ZED (usb-3610000.xhci-4.3):
+        /dev/video0
+
+$ ls /dev/video*
+/dev/video0  /dev/video1
+
+$ ls /usr/local/zed/settings/
+SN19976.conf  SN24463.conf  SN29674938.conf  updates.bin
+```
+
+This gives the ZED serials:
+- zed`1 outside: 19976   (serial_number)` top of the vehicle, center
+- zed`2 inside:  29674938 (serial_number)` driver monitoring 
+
 ### Prerequisites
 
 - Ubuntu 16.04 or newer (Ubuntu 18 recommended)

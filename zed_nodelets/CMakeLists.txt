@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.7)
+cmake_minimum_required(VERSION 3.5)
 
 project(zed_nodelets)
 
@@ -38,21 +38,21 @@ if (OPENMP_FOUND)
     set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
 endif()
 
-find_package(catkin COMPONENTS
-  image_transport
-  roscpp
-  rosconsole
-  sensor_msgs
-  stereo_msgs
-  std_msgs
-  message_filters  
-  tf2_ros
-  nodelet
-  tf2_geometry_msgs
-  message_generation
-  diagnostic_updater
-  zed_interfaces  
-  dynamic_reconfigure
+find_package(catkin REQUIRED COMPONENTS
+    roscpp
+    image_transport
+    rosconsole
+    sensor_msgs
+    stereo_msgs
+    std_msgs
+    message_filters
+    tf2_ros
+    nodelet
+    tf2_geometry_msgs
+    message_generation
+    diagnostic_updater    
+    dynamic_reconfigure
+    zed_interfaces
 )
 
 generate_dynamic_reconfigure_options(
@@ -70,8 +70,10 @@ catkin_package(
     dynamic_reconfigure
     tf2_ros
     tf2_geometry_msgs
-    message_runtime
+    message_runtime    
     zed_interfaces
+    geometry_msgs
+    visualization_msgs
 )
 
 ###############################################################################
@@ -88,14 +90,14 @@ set(RGBD_SENS_DEMUX_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/rgbd_sensors_demux_nodel
 # INCLUDES
 
 # Specify locations of header files.
-include_directories(
-        ${catkin_INCLUDE_DIRS}
-        ${CUDA_INCLUDE_DIRS}
-        ${ZED_INCLUDE_DIRS}
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/tools/include
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/zed_nodelet/include
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/rgbd_sensors_sync_nodelet/include
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/rgbd_sensors_demux_nodelet/include
+set(INCLUDE_DIRS
+    ${catkin_INCLUDE_DIRS}
+    ${CUDA_INCLUDE_DIRS}
+    ${ZED_INCLUDE_DIRS}
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/tools/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/zed_nodelet/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/rgbd_sensors_sync_nodelet/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/rgbd_sensors_demux_nodelet/include
 )
 
 link_directories(${ZED_LIBRARY_DIR})
@@ -106,11 +108,12 @@ link_directories(${CUDA_LIBRARY_DIRS})
 ###############################################################################
 # ZED WRAPPER NODELET
 
-add_definitions(-std=c++11)
+add_definitions(-std=c++11 -Wno-deprecated-declarations)
 set(LINK_LIBRARIES
   ${catkin_LIBRARIES}
   ${ZED_LIBRARIES}
   ${CUDA_LIBRARIES}
+  stdc++fs
 )
 
 add_library(ZEDNodelets
@@ -119,6 +122,7 @@ add_library(ZEDNodelets
     ${RGBD_SENS_SYNC_SRC}
     ${RGBD_SENS_DEMUX_SRC}
 )
+target_include_directories(ZEDNodelets PRIVATE ${INCLUDE_DIRS})
 target_link_libraries(ZEDNodelets ${LINK_LIBRARIES})
 add_dependencies(
     ZEDNodelets

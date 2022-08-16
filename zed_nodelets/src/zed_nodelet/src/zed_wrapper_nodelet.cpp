@@ -470,14 +470,14 @@ void ZEDWrapperNodelet::onInit()
     // }
 
     // // Odometry and Pose publisher
-    // mPubPose = mNhNs.advertise<geometry_msgs::PoseStamped>(poseTopic, 1);
-    // NODELET_INFO_STREAM("Advertised on topic " << mPubPose.getTopic());
+    mPubPose = mNhNs.advertise<geometry_msgs::PoseStamped>(poseTopic, 1);
+    NODELET_INFO_STREAM("Advertised on topic " << mPubPose.getTopic());
 
-    // mPubPoseCov = mNhNs.advertise<geometry_msgs::PoseWithCovarianceStamped>(pose_cov_topic, 1);
-    // NODELET_INFO_STREAM("Advertised on topic " << mPubPoseCov.getTopic());
+    mPubPoseCov = mNhNs.advertise<geometry_msgs::PoseWithCovarianceStamped>(pose_cov_topic, 1);
+    NODELET_INFO_STREAM("Advertised on topic " << mPubPoseCov.getTopic());
 
-    // mPubOdom = mNhNs.advertise<nav_msgs::Odometry>(odometryTopic, 1);
-    // NODELET_INFO_STREAM("Advertised on topic " << mPubOdom.getTopic());
+    mPubOdom = mNhNs.advertise<nav_msgs::Odometry>(odometryTopic, 1);
+    NODELET_INFO_STREAM("Advertised on topic " << mPubOdom.getTopic());
 
     // // Rviz markers publisher
     // mPubMarker = mNhNs.advertise<visualization_msgs::Marker>(marker_topic, 10, true);
@@ -486,24 +486,24 @@ void ZEDWrapperNodelet::onInit()
     // mPubPlane = mNhNs.advertise<zed_interfaces::PlaneStamped>(plane_topic, 1);
 
     // // Camera Path
-    // if (mPathPubRate > 0) {
-    //     mPubOdomPath = mNhNs.advertise<nav_msgs::Path>(odom_path_topic, 1, true);
-    //     NODELET_INFO_STREAM("Advertised on topic " << mPubOdomPath.getTopic());
-    //     mPubMapPath = mNhNs.advertise<nav_msgs::Path>(map_path_topic, 1, true);
-    //     NODELET_INFO_STREAM("Advertised on topic " << mPubMapPath.getTopic());
+    if (mPathPubRate > 0) {
+        mPubOdomPath = mNhNs.advertise<nav_msgs::Path>(odom_path_topic, 1, true);
+        NODELET_INFO_STREAM("Advertised on topic " << mPubOdomPath.getTopic());
+        mPubMapPath = mNhNs.advertise<nav_msgs::Path>(map_path_topic, 1, true);
+        NODELET_INFO_STREAM("Advertised on topic " << mPubMapPath.getTopic());
 
-    //     mPathTimer = mNhNs.createTimer(ros::Duration(1.0 / mPathPubRate), &ZEDWrapperNodelet::callback_pubPath, this);
+        mPathTimer = mNhNs.createTimer(ros::Duration(1.0 / mPathPubRate), &ZEDWrapperNodelet::callback_pubPath, this);
 
-    //     if (mPathMaxCount != -1) {
-    //         NODELET_DEBUG_STREAM("Path vectors reserved " << mPathMaxCount << " poses.");
-    //         mOdomPath.reserve(mPathMaxCount);
-    //         mMapPath.reserve(mPathMaxCount);
+        if (mPathMaxCount != -1) {
+            NODELET_DEBUG_STREAM("Path vectors reserved " << mPathMaxCount << " poses.");
+            mOdomPath.reserve(mPathMaxCount);
+            mMapPath.reserve(mPathMaxCount);
 
-    //         NODELET_DEBUG_STREAM("Path vector sizes: " << mOdomPath.size() << " " << mMapPath.size());
-    //     }
-    // } else {
-    //     NODELET_INFO_STREAM("Path topics not published -> mPathPubRate: " << mPathPubRate);
-    // }
+            NODELET_DEBUG_STREAM("Path vector sizes: " << mOdomPath.size() << " " << mMapPath.size());
+        }
+    } else {
+        NODELET_INFO_STREAM("Path topics not published -> mPathPubRate: " << mPathPubRate);
+    }
 
     // // Sensor publishers
     // if (mZedRealCamModel != sl::MODEL::ZED) {

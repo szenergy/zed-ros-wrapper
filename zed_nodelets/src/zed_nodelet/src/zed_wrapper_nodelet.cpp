@@ -411,9 +411,9 @@ void ZEDWrapperNodelet::onInit()
     // mPubRawLeft = it_zed.advertiseCamera(left_raw_topic, 1); // left raw
     // NODELET_INFO_STREAM("Advertised on topic " << mPubRawLeft.getTopic());
     // NODELET_INFO_STREAM("Advertised on topic " << mPubRawLeft.getInfoTopic());
-    // // mPubRight = it_zed.advertiseCamera(right_topic, 1); // right
-    // NODELET_INFO_STREAM("Advertised on topic " << mPubRight.getTopic());
-    // NODELET_INFO_STREAM("Advertised on topic " << mPubRight.getInfoTopic());
+    mPubRight = it_zed.advertiseCamera(right_topic, 1); // right
+    NODELET_INFO_STREAM("Advertised on topic " << mPubRight.getTopic());
+    NODELET_INFO_STREAM("Advertised on topic " << mPubRight.getInfoTopic());
     // mPubRawRight = it_zed.advertiseCamera(right_raw_topic, 1); // right raw
     // NODELET_INFO_STREAM("Advertised on topic " << mPubRawRight.getTopic());
     // NODELET_INFO_STREAM("Advertised on topic " << mPubRawRight.getInfoTopic());

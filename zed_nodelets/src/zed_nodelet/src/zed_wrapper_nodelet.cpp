@@ -448,7 +448,7 @@ void ZEDWrapperNodelet::onInit()
   // Image publishers
   image_transport::ImageTransport it_zed(mNhNs);
 
-  mPubRgb = it_zed.advertiseCamera(rgb_topic, 1);  // rgb
+  // mPubRgb = it_zed.advertiseCamera(rgb_topic, 1);  // rgb
   // NODELET_INFO_STREAM(" * Advertised on topic " << mPubRgb.getTopic());
   // NODELET_INFO_STREAM(" * Advertised on topic " << mPubRgb.getInfoTopic());
   // mPubRawRgb = it_zed.advertiseCamera(rgb_raw_topic, 1);  // rgb raw
@@ -671,48 +671,48 @@ void ZEDWrapperNodelet::initServices()
   NODELET_INFO("*** SERVICES ***");
   if (!mDepthDisabled)
   {
-    mSrvSetInitPose = mNhNs.advertiseService("set_pose", &ZEDWrapperNodelet::on_set_pose, this);
-    NODELET_INFO_STREAM(" * Advertised on service " << mSrvSetInitPose.getService().c_str());
-    mSrvResetOdometry = mNhNs.advertiseService("reset_odometry", &ZEDWrapperNodelet::on_reset_odometry, this);
-    NODELET_INFO_STREAM(" * Advertised on service " << mSrvResetOdometry.getService().c_str());
-    mSrvResetTracking = mNhNs.advertiseService("reset_tracking", &ZEDWrapperNodelet::on_reset_tracking, this);
-    NODELET_INFO_STREAM(" * Advertised on service " << mSrvResetTracking.getService().c_str());
+   mSrvSetInitPose = mNhNs.advertiseService("set_pose", &ZEDWrapperNodelet::on_set_pose, this);
+   NODELET_INFO_STREAM(" * Advertised on service " << mSrvSetInitPose.getService().c_str());
+   mSrvResetOdometry = mNhNs.advertiseService("reset_odometry", &ZEDWrapperNodelet::on_reset_odometry, this);
+   NODELET_INFO_STREAM(" * Advertised on service " << mSrvResetOdometry.getService().c_str());
+   // mSrvResetTracking = mNhNs.advertiseService("reset_tracking", &ZEDWrapperNodelet::on_reset_tracking, this);
+   // NODELET_INFO_STREAM(" * Advertised on service " << mSrvResetTracking.getService().c_str());
 
-    mSrvSaveAreaMemory = mNhNs.advertiseService("save_area_memory", &ZEDWrapperNodelet::on_save_area_memory, this);
-    NODELET_INFO_STREAM(" * Advertised on service " << mSrvSaveAreaMemory.getService().c_str());
+   // mSrvSaveAreaMemory = mNhNs.advertiseService("save_area_memory", &ZEDWrapperNodelet::on_save_area_memory, this);
+   // NODELET_INFO_STREAM(" * Advertised on service " << mSrvSaveAreaMemory.getService().c_str());
 
-    mSrvStartMapping = mNhNs.advertiseService("start_3d_mapping", &ZEDWrapperNodelet::on_start_3d_mapping, this);
-    NODELET_INFO_STREAM(" * Advertised on service " << mSrvStartMapping.getService().c_str());
-    mSrvStopMapping = mNhNs.advertiseService("stop_3d_mapping", &ZEDWrapperNodelet::on_stop_3d_mapping, this);
-    NODELET_INFO_STREAM(" * Advertised on service " << mSrvStopMapping.getService().c_str());
-    mSrvSave3dMap = mNhNs.advertiseService("save_3d_map", &ZEDWrapperNodelet::on_save_3d_map, this);
-    NODELET_INFO_STREAM(" * Advertised on service " << mSrvSave3dMap.getService().c_str());
+   // mSrvStartMapping = mNhNs.advertiseService("start_3d_mapping", &ZEDWrapperNodelet::on_start_3d_mapping, this);
+   // NODELET_INFO_STREAM(" * Advertised on service " << mSrvStartMapping.getService().c_str());
+   // mSrvStopMapping = mNhNs.advertiseService("stop_3d_mapping", &ZEDWrapperNodelet::on_stop_3d_mapping, this);
+   // NODELET_INFO_STREAM(" * Advertised on service " << mSrvStopMapping.getService().c_str());
+   // mSrvSave3dMap = mNhNs.advertiseService("save_3d_map", &ZEDWrapperNodelet::on_save_3d_map, this);
+   // NODELET_INFO_STREAM(" * Advertised on service " << mSrvSave3dMap.getService().c_str());
 
-    mSrvEnableObjDet =
-        mNhNs.advertiseService("enable_object_detection", &ZEDWrapperNodelet::on_enable_object_detection, this);
-    NODELET_INFO_STREAM(" * Advertised on service " << mSrvEnableObjDet.getService().c_str());
+    // mSrvEnableObjDet =
+    //    mNhNs.advertiseService("enable_object_detection", &ZEDWrapperNodelet::on_enable_object_detection, this);
+    // NODELET_INFO_STREAM(" * Advertised on service " << mSrvEnableObjDet.getService().c_str());
   }
 
-  mSrvSvoStartRecording =
-      mNhNs.advertiseService("start_svo_recording", &ZEDWrapperNodelet::on_start_svo_recording, this);
-  NODELET_INFO_STREAM(" * Advertised on service " << mSrvSvoStartRecording.getService().c_str());
-  mSrvSvoStopRecording = mNhNs.advertiseService("stop_svo_recording", &ZEDWrapperNodelet::on_stop_svo_recording, this);
-  NODELET_INFO_STREAM(" * Advertised on service " << mSrvSvoStopRecording.getService().c_str());
+  // mSrvSvoStartRecording =
+  //     mNhNs.advertiseService("start_svo_recording", &ZEDWrapperNodelet::on_start_svo_recording, this);
+  // NODELET_INFO_STREAM(" * Advertised on service " << mSrvSvoStartRecording.getService().c_str());
+  // mSrvSvoStopRecording = mNhNs.advertiseService("stop_svo_recording", &ZEDWrapperNodelet::on_stop_svo_recording, this);
+  // NODELET_INFO_STREAM(" * Advertised on service " << mSrvSvoStopRecording.getService().c_str());
 
-  mSrvSetLedStatus = mNhNs.advertiseService("set_led_status", &ZEDWrapperNodelet::on_set_led_status, this);
-  NODELET_INFO_STREAM(" * Advertised on service " << mSrvSetLedStatus.getService().c_str());
-  mSrvToggleLed = mNhNs.advertiseService("toggle_led", &ZEDWrapperNodelet::on_toggle_led, this);
-  NODELET_INFO_STREAM(" * Advertised on service " << mSrvToggleLed.getService().c_str());
+  // mSrvSetLedStatus = mNhNs.advertiseService("set_led_status", &ZEDWrapperNodelet::on_set_led_status, this);
+  // NODELET_INFO_STREAM(" * Advertised on service " << mSrvSetLedStatus.getService().c_str());
+  // mSrvToggleLed = mNhNs.advertiseService("toggle_led", &ZEDWrapperNodelet::on_toggle_led, this);
+  // NODELET_INFO_STREAM(" * Advertised on service " << mSrvToggleLed.getService().c_str());
 
-  mSrvSvoStartStream = mNhNs.advertiseService("start_remote_stream", &ZEDWrapperNodelet::on_start_remote_stream, this);
-  NODELET_INFO_STREAM(" * Advertised on service " << mSrvSvoStartStream.getService().c_str());
-  mSrvSvoStopStream = mNhNs.advertiseService("stop_remote_stream", &ZEDWrapperNodelet::on_stop_remote_stream, this);
-  NODELET_INFO_STREAM(" * Advertised on service " << mSrvSvoStopStream.getService().c_str());
+  // mSrvSvoStartStream = mNhNs.advertiseService("start_remote_stream", &ZEDWrapperNodelet::on_start_remote_stream, this);
+  // NODELET_INFO_STREAM(" * Advertised on service " << mSrvSvoStartStream.getService().c_str());
+  // mSrvSvoStopStream = mNhNs.advertiseService("stop_remote_stream", &ZEDWrapperNodelet::on_stop_remote_stream, this);
+  // NODELET_INFO_STREAM(" * Advertised on service " << mSrvSvoStopStream.getService().c_str());
 
-  mSrvSetRoi = mNhNs.advertiseService("set_roi", &ZEDWrapperNodelet::on_set_roi, this);
-  NODELET_INFO_STREAM(" * Advertised on service " << mSrvSetRoi.getService().c_str());
-  mSrvResetRoi = mNhNs.advertiseService("reset_roi", &ZEDWrapperNodelet::on_reset_roi, this);
-  NODELET_INFO_STREAM(" * Advertised on service " << mSrvSetRoi.getService().c_str());
+  // mSrvSetRoi = mNhNs.advertiseService("set_roi", &ZEDWrapperNodelet::on_set_roi, this);
+  // NODELET_INFO_STREAM(" * Advertised on service " << mSrvSetRoi.getService().c_str());
+  // mSrvResetRoi = mNhNs.advertiseService("reset_roi", &ZEDWrapperNodelet::on_reset_roi, this);
+  // NODELET_INFO_STREAM(" * Advertised on service " << mSrvSetRoi.getService().c_str());
 }
 
 void ZEDWrapperNodelet::readGeneralParams()
